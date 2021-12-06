@@ -1,0 +1,124 @@
+/* 
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~ng-wizard/themes/ng_wizard.min.css'; */
+
+/* Optional */
+/* If a theme other than default is used, the css file for that theme is required. */
+/* @import '~ng-wizard/themes/ng_wizard_theme_arrows.min.css';
+@import '~ng-wizard/themes/ng_wizard_theme_circles.min.css';
+@import '~ng-wizard/themes/ng_wizard_theme_dots.min.css'; */
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+  }
+  .submit{
+    background-color: green;
+    float: right;
+  }
+  .mat-radio-button ~ .mat-radio-button {
+    display: flex; flex-direction: column;
+    /* margin-left: 20px; */
+  }
+  .error{
+    text-align: left;
+    color: red;
+  }
+
+  .list-items {
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    /* border: 3px solid gray; */
+    /* margin: 250px 250px 0px 250px; */
+    /* padding: 10px; */
+  }
+  #table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color:#1797c0;
+    color: white;
+  }
+  #table tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #table tr:hover {background-color: #ddd;}
+
+  input {
+    /* width: 80%; */
+    /* margin: 5px 5px 5px 0px; */
+    margin-top: 10px;
+  }
+
+  .ng-wizard-btn-prev{ 
+    margin: 20px;
+  }
+  header{
+    height: 70px;
+    width: auto;
+    background-color:#333;
+  }
+  /* .form-control {
+    text-align: left;
+    margin-bottom: 25px;
+} */
+.required{
+  text-align: right;
+  font-weight: bold;
+}
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+.sidebar {
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  /* top: 0; */
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 16px;
+}
+
+.sidebar a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+}
+
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+.main {
+  margin-left: 160px; /* Same as the width of the sidenav */
+  padding: 0px 0px;
+}

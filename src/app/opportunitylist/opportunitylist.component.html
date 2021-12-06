@@ -1,0 +1,34 @@
+<div class='list-items'>
+    <div>
+        <nav>
+            <a routerLink="/ng-wizard" routerLinkActive="active">My Wizard</a>
+            <!-- <a routerLink="/home" routerLinkActive="active">My Wizard</a> -->
+        </nav>
+    </div>
+    <mat-progress-spinner diameter=50 style="margin:0 auto;" mode="indeterminate" *ngIf="Showloader === true">
+    </mat-progress-spinner>
+    <div class="card" *ngIf="OpportunityList?OpportunityList.length>0:''">
+        <div class="card-body">
+            <div id="table" class="table-editable">
+                <table class="table table-bordered table-responsive-md table-striped">
+                    <tr>
+                        <th class="text-center">Opportunity Id</th>
+                        <th class="text-center">Opportunity Name</th>
+                        <th class="text-center">Department Type</th>
+                    </tr>
+                    <tr *ngFor="let ol of OpportunityList">
+                        <td>
+                            <span>{{ol.id}}</span>
+                        </td>
+                        <td>
+                            <span>{{ol.name}}</span>
+                        </td>
+                        <td>
+                            <span>{{ol.dep_Type__c?ol.dep_Type__c:"NA"}}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

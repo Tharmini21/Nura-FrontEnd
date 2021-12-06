@@ -1,0 +1,30 @@
+.list-items {
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  border: 3px solid gray;
+  /* margin: 250px 250px 0px 250px; */
+  /* padding: 10px; */
+}
+table {
+  border-collapse: collapse;
+  max-width: 100%; 
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+#table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color:#1797c0;
+  color: white;
+}
+#table tr:nth-child(even){background-color: #f2f2f2;}
+
+#table tr:hover {background-color: #ddd;}
