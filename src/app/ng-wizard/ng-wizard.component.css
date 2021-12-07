@@ -35,9 +35,18 @@ table {
     margin: auto;
     width: 100%;
     height: 100%;
+    border: none;
+    padding: 5px;
+    overflow: auto;
+    /* height: 100%; */
     /* border: 3px solid gray; */
     /* margin: 250px 250px 0px 250px; */
     /* padding: 10px; */
+  }
+  .table-editable{
+    overflow-x: hidden; 
+    overflow-y: scroll;
+    overflow: scroll;
   }
   #table th {
     padding-top: 12px;
@@ -45,6 +54,7 @@ table {
     text-align: left;
     background-color:#1797c0;
     color: white;
+    height: 100%;
   }
   #table tr:nth-child(even){background-color: #f2f2f2;}
   
@@ -66,7 +76,7 @@ table {
   }
   /* .form-control {
     text-align: left;
-    margin-bottom: 25px;
+    width: auto;
 } */
 .required{
   text-align: right;
@@ -98,13 +108,13 @@ table {
 .sidebar {
   height: 100%;
   width: 160px;
-  position: fixed;
-  z-index: 1;
+  position:absolute;
+  /* z-index: 1; */
   /* top: 0; */
   left: 0;
   background-color: #111;
-  overflow-x: hidden;
-  padding-top: 16px;
+  overflow-y: visible;
+  /* padding-top: 16px; */
 }
 
 .sidebar a {
@@ -121,4 +131,15 @@ table {
 .main {
   margin-left: 160px; /* Same as the width of the sidenav */
   padding: 0px 0px;
+  height: 100%;
+}
+
+.example-container {
+  width: 100%;
+  height: 600px;
+  margin: 10px;
+  border: 1px solid #555;
+}
+.mainconent{
+  padding-left: 250px;
 }

@@ -23,6 +23,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import { HomeComponent } from './home/home.component';
 import { CallbackComponent } from './callback/callback.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -53,7 +54,8 @@ const ngWizardConfig: NgWizardConfig = {
     MatDatepickerModule,
     MatNativeDateModule,
     MatRadioModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSidenavModule
   ],
   providers: [],
   bootstrap: [AppComponent]
