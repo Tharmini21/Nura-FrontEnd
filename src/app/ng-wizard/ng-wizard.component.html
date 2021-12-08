@@ -1,6 +1,6 @@
 <head></head>
 
-<body>
+<body class="body">
 
   <div class="topnav">
     <a class="active" href="#home"><i class="fa fa-fw fa-home"></i> Home</a>
@@ -18,9 +18,7 @@
         <div class="list-items">
           <mat-progress-spinner diameter=50 style="margin:100px auto;" mode="indeterminate" *ngIf="Showloader === true">
           </mat-progress-spinner>
-          <div class="card" *ngIf="OpportunityList?OpportunityList.length>0:''">
-            <div class="card-body">
-              <div id="table" class="table-editable">
+              <div id="table" class="table-editable" *ngIf="OpportunityList?OpportunityList.length>0:''">
                 <table class="table table-bordered table-responsive-md table-striped">
                   <tr>
                     <th class="text-center">Opportunity Id</th>
@@ -40,8 +38,6 @@
                   </tr>
                 </table>
               </div>
-            </div>
-          </div>
         </div>
 
       </ng-wizard-step>
@@ -64,17 +60,17 @@
           </div>
         </div>
         <form [formGroup]="myForm" (ngSubmit)="Submit()">
-          <mat-drawer-container class="example-container">
+          <mat-drawer-container class="example-container" *ngIf="SmartsheetList?SmartsheetList.length>0:''">
             <mat-drawer mode="side" opened>
-              <img src="../../assets/business-deal.jpg" class="img1" width="350" height="350">
+              <img src="../../assets/business-deal.jpg" class="img1">
             </mat-drawer>
             <mat-drawer-content class="mainconent">
-              <div class="form-control" *ngIf="SmartsheetList?SmartsheetList.length>0:''">
+              <div class="form-control" >
                 <div class="required">
                   <label><span style="color: red;">*</span>indicates required</label>
                 </div>
                 <div *ngFor="let formField of formFields;let i = index" class="form-group">
-                  <label *ngIf="!formField.visible" style="font-weight: bold;">{{ formField.question }} <span
+                  <label *ngIf="!formField.visible" style="font-weight: bold;" [style.background-color]="BackgroundColor">{{ formField.question }} <span
                       *ngIf="formField.isRequired" style="color: red;">*</span></label>
                   <br>
                   <div *ngIf="!formField.visible && formField.fieldType=='textbox'?Showtextbox:''">

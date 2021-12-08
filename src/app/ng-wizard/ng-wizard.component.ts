@@ -127,6 +127,7 @@ export class NgWizardComponent implements OnInit {
   MappingSheetList: any = [];
   OpportunityList: any;
   SalesForceUserdetails: any;
+  BackgroundColor: string = "";
   GetSalesforceToken() {
     const res = this.MappingSheetList.filter((x: any) => x.key == "Username");
     var username = res[0].values;
@@ -187,6 +188,7 @@ export class NgWizardComponent implements OnInit {
     this.Showloader = true;
     let entry = event.target.value;
     this.fieldtype = event.target.value;
+    this.BackgroundColor=this.getBackgroundColor(this.fieldtype);
     if (entry == "Software") {
       const res = this.MappingSheetList.filter((x: any) => x.key == 'QuestionSoftware');
       this.sheetId = res[0].values;
@@ -293,6 +295,23 @@ export class NgWizardComponent implements OnInit {
     else {
       window.alert("Please fill required fields");
     }
+  }
+  
+  getBackgroundColor(fieldtype:string) {
+    let color = 'orange';
+    if (this.fieldtype == "Software") {
+      const res = this.MappingSheetList.filter((x: any) => x.key == 'QuestionSoftware');
+      color = res[0].theme;
+    }
+    else if (this.fieldtype == "Networking") {
+      const res = this.MappingSheetList.filter((x: any) => x.key == 'QuestionNetworking');
+      color = res[0].theme;
+    }
+    else {
+      const res = this.MappingSheetList.filter((x: any) => x.key == 'QuestionDesigning');
+      color = res[0].theme;
+    }
+    return color;
   }
   GetMappingsheetlist() {
     this.authService.getMappingSheetDetails(this.smartsheetaccesstoken).subscribe(

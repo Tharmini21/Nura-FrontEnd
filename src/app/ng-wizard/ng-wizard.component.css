@@ -34,19 +34,19 @@ table {
   .list-items {
     margin: auto;
     width: 100%;
-    height: 100%;
+    height: 50%;
     border: none;
     padding: 5px;
     overflow: auto;
-    /* height: 100%; */
-    /* border: 3px solid gray; */
-    /* margin: 250px 250px 0px 250px; */
-    /* padding: 10px; */
+  
   }
   .table-editable{
-    overflow-x: hidden; 
+    overflow: auto;
+    /* overflow-x: hidden; 
     overflow-y: scroll;
-    overflow: scroll;
+    overflow: scroll; */
+    height: 50%;
+
   }
   #table th {
     padding-top: 12px;
@@ -54,7 +54,6 @@ table {
     text-align: left;
     background-color:#1797c0;
     color: white;
-    height: 100%;
   }
   #table tr:nth-child(even){background-color: #f2f2f2;}
   
@@ -113,7 +112,9 @@ table {
   /* top: 0; */
   left: 0;
   background-color: #111;
-  overflow-y: visible;
+  /* overflow-y: scroll; */
+    /* overflow: scroll; */
+  /* overflow-y: visible; */
   /* padding-top: 16px; */
 }
 
@@ -136,10 +137,21 @@ table {
 
 .example-container {
   width: 100%;
-  height: 600px;
+  height: 650px;
   margin: 10px;
   border: 1px solid #555;
 }
 .mainconent{
-  padding-left: 250px;
+  /* padding-left: 250px; */
+  margin-left: 200px;
+}
+.img1{
+  align-items: center;
+  width: 400px;
+  height: 450px;
+}
+.body{
+  height: 100%;
+  width: 100%;
+  /* overflow-y: hidden; */
 }
