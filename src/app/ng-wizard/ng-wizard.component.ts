@@ -128,6 +128,7 @@ export class NgWizardComponent implements OnInit {
   OpportunityList: any;
   SalesForceUserdetails: any;
   BackgroundColor: string = "";
+  style: string = "";
   GetSalesforceToken() {
     const res = this.MappingSheetList.filter((x: any) => x.key == "Username");
     var username = res[0].values;
@@ -185,6 +186,7 @@ export class NgWizardComponent implements OnInit {
   };
   changedepartmenttype(event: any) {
     this.SmartsheetList = [];
+    this.style="";
     this.Showloader = true;
     let entry = event.target.value;
     this.fieldtype = event.target.value;
@@ -192,14 +194,17 @@ export class NgWizardComponent implements OnInit {
     if (entry == "Software") {
       const res = this.MappingSheetList.filter((x: any) => x.key == 'QuestionSoftware');
       this.sheetId = res[0].values;
+      this.style =res[0].style;
     }
     else if (entry == "Networking") {
       const res = this.MappingSheetList.filter((x: any) => x.key == 'QuestionNetworking');
       this.sheetId = res[0].values;
+      this.style =res[0].style;
     }
     else {
       const res = this.MappingSheetList.filter((x: any) => x.key == "QuestionDesigning");
       this.sheetId = res[0].values;
+      this.style =res[0].style;
     }
     this.authService.getSmartsheetdata(this.sheetId, this.smartsheetaccesstoken).subscribe(
       (data: any) => {
