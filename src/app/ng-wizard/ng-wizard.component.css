@@ -23,8 +23,9 @@ table {
     float: right;
   }
   .mat-radio-button ~ .mat-radio-button {
-    display: flex; flex-direction: column;
-    /* margin-left: 20px; */
+    margin-left: 20px;
+    /* display: flex; 
+    flex-direction: column; */
   }
   .error{
     text-align: left;

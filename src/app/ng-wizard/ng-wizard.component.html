@@ -18,26 +18,26 @@
         <div class="list-items">
           <mat-progress-spinner diameter=50 style="margin:100px auto;" mode="indeterminate" *ngIf="Showloader === true">
           </mat-progress-spinner>
-              <div id="table" class="table-editable" *ngIf="OpportunityList?OpportunityList.length>0:''">
-                <table class="table table-bordered table-responsive-md table-striped">
-                  <tr>
-                    <th class="text-center">Opportunity Id</th>
-                    <th class="text-center">Opportunity Name</th>
-                    <th class="text-center">Department Type</th>
-                  </tr>
-                  <tr *ngFor="let ol of OpportunityList">
-                    <td>
-                      <span>{{ol.id}}</span>
-                    </td>
-                    <td>
-                      <span>{{ol.name}}</span>
-                    </td>
-                    <td>
-                      <span>{{ol.dep_Type__c?ol.dep_Type__c:"NA"}}</span>
-                    </td>
-                  </tr>
-                </table>
-              </div>
+          <div id="table" class="table-editable" *ngIf="OpportunityList?OpportunityList.length>0:''">
+            <table class="table table-bordered table-responsive-md table-striped">
+              <tr>
+                <th class="text-center">Opportunity Id</th>
+                <th class="text-center">Opportunity Name</th>
+                <th class="text-center">Department Type</th>
+              </tr>
+              <tr *ngFor="let ol of OpportunityList">
+                <td>
+                  <span>{{ol.id}}</span>
+                </td>
+                <td>
+                  <span>{{ol.name}}</span>
+                </td>
+                <td>
+                  <span>{{ol.dep_Type__c?ol.dep_Type__c:"NA"}}</span>
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
 
       </ng-wizard-step>
@@ -60,17 +60,18 @@
           </div>
         </div>
         <form [formGroup]="myForm" (ngSubmit)="Submit()">
-          <mat-drawer-container  *ngIf="SmartsheetList?SmartsheetList.length>0 && style =='example-container':''">
+          <mat-drawer-container *ngIf="SmartsheetList?SmartsheetList.length>0 && style =='example-container':''">
             <mat-drawer mode="side" opened>
               <img src="../../assets/business-deal.jpg" class="img1">
             </mat-drawer>
             <mat-drawer-content class="mainconent">
-              <div class="form-control" >
+              <div class="form-control">
                 <div class="required">
                   <label><span style="color: red;">*</span>indicates required</label>
                 </div>
                 <div *ngFor="let formField of formFields;let i = index" class="form-group">
-                  <label *ngIf="!formField.visible" style="font-weight: bold;" [style.background-color]="BackgroundColor">{{ formField.question }} <span
+                  <label *ngIf="!formField.visible" style="font-weight: bold;"
+                    [style.background-color]="BackgroundColor">{{ formField.question }} <span
                       *ngIf="formField.isRequired" style="color: red;">*</span></label>
                   <br>
                   <div *ngIf="!formField.visible && formField.fieldType=='textbox'?Showtextbox:''">
@@ -114,47 +115,61 @@
               </div>
             </mat-drawer-content>
           </mat-drawer-container>
-          <div id="table" [className]=style>
-            <table class="table table-bordered table-responsive-md table-striped text-center">
-              <tr>
-                <th class="text-center">Question Id</th>
-                <th class="text-center">Question</th>
-                <th class="text-center">Answer</th>
-              </tr>
-              <tr *ngFor="let sl of SmartsheetList">
-                <td>
-                  <span>{{sl.no}}</span>
-                </td>
-                <td>
-                  <span>{{sl.question}}</span>
-                </td>
-                <td *ngIf="sl.fieldType=='textbox'?Showtextbox:''">
-                  <input class="form-control" type="text" name="Answer" placeholder="Answer" [(ngModel)]="sl.answer">
-                </td>
-                <td *ngIf="sl.fieldType=='checkbox'?Showcheckbox:''">
-                  <mat-checkbox [(ngModel)]="checked">Yes</mat-checkbox>
-                  <mat-checkbox [(ngModel)]="unchecked">No</mat-checkbox>
-                </td>
-                <td *ngIf="sl.fieldType=='optionlist'?Showlist:''">
-                  <select matNativeControl [(ngModel)]="mySelect">
-                    <option>Select</option>
-                    <option *ngFor="let item of sl.fieldValues.split(',')" [value]="item">
-                      {{item}}
-                    </option>
-                  </select>
-                </td>
-                <td *ngIf="sl.fieldType=='datetimePicker'?Showdatetimepicker:''">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Choose a date</mat-label>
-                    <input matInput [matDatepicker]="picker" [(ngModel)]="dateOfBirth">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                  </mat-form-field>
-                </td>
-              </tr>
-            </table>
+          <div class="card" *ngIf="SmartsheetList?SmartsheetList.length>0 && style =='table-editable':''">
+            <div class="card-body">
+              <div id="table" class=style>
+                <table class="table table-bordered table-responsive-md table-striped text-center">
+                  <tr>
+                    <th class="text-center">Question Id</th>
+                    <th class="text-center">Question</th>
+                    <th class="text-center">Answer</th>
+                  </tr>
+                  <tr *ngFor="let sl of SmartsheetList">
+                    <td>
+                      <span>{{sl.no}}</span>
+                    </td>
+                    <td>
+                      <span>{{sl.question}}</span>
+                    </td>
+                    <td *ngIf="sl.fieldType=='textbox'?Showtextbox:''">
+                      <div>
+                        <input class="form-control" formControlName="AnswerInput" type="text" name="Answer"
+                          placeholder="Answer" [(ngModel)]="sl.answer" autocomplete="off" [ngClass]="{'is-invalid':myForm.controls.AnswerInput.errors}">
+                        <div *ngIf="myForm.controls.AnswerInput.errors"></div>
+                        <!-- <span class="error" *ngIf="myForm.controls.AnswerInput.errors && sl.isRequired">Answer is required.</span> -->
+                      </div>
+                    </td>
+                    <td *ngIf="sl.fieldType=='checkbox'?Showcheckbox:''">
+                      <mat-radio-group [(ngModel)]="sl.answer" formControlName="AnswerRadio" [ngClass]="{'is-invalid':myForm.controls.AnswerRadio.errors}">
+                        <mat-radio-button value="yes">Yes</mat-radio-button>
+                        <mat-radio-button value="no">No</mat-radio-button>
+                      </mat-radio-group>
+                      <!-- <div *ngIf="myForm.controls.AnswerRadio.errors && sl.isRequired"></div> -->
+                    </td>
+                    <td *ngIf="sl.fieldType=='optionlist'?Showlist:''">
+                      <mat-form-field appearance="fill">
+                        <label>Education Level</label>
+                        <select matNativeControl [(ngModel)]="sl.answer" formControlName="AnswerSelect">
+                          <option value="-1">Select</option>
+                          <option *ngFor="let item of sl.fieldValues.split(',')" [value]="item">
+                            {{item}}
+                          </option>
+                        </select>
+                      </mat-form-field>
+                    </td>
+                    <td *ngIf="sl.fieldType=='datetimepicker'?Showdatetimepicker:''">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Choose a date</mat-label>
+                        <input matInput [matDatepicker]="picker" [(ngModel)]="sl.answer" formControlName="Answerdatapicker">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
           </div>
-        
         </form>
 
       </ng-wizard-step>

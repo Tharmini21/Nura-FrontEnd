@@ -28,17 +28,17 @@ export class NgWizardComponent implements OnInit {
   tokenresponse: any;
   oldtokenresponse: any;
   formFields!: FormField[];
-  myForm = new FormGroup({});
-  // myForm = new FormGroup({
-  //   AnswerInput: new FormControl('', Validators.required),
-  //   AnswerRadio: new FormControl('', Validators.required),
-  //   AnswerSelect: new FormControl('', Validators.required),
-  //   Answerdatapicker: new FormControl('', Validators.required)
-  // });
-  // get AnswerInput() { return this.myForm.get("AnswerInput") };
-  // get AnswerRadio() { return this.myForm.get("AnswerRadio") };
-  // get AnswerSelect() { return this.myForm.get("AnswerSelect") };
-  // get Answerdatapicker() { return this.myForm.get("Answerdatapicker") };
+ // myForm = new FormGroup({});
+  myForm = new FormGroup({
+    AnswerInput: new FormControl('', Validators.required),
+    AnswerRadio: new FormControl('', Validators.required),
+    AnswerSelect: new FormControl('', Validators.required),
+    Answerdatapicker: new FormControl('', Validators.required)
+  });
+  get AnswerInput() { return this.myForm.get("AnswerInput") };
+  get AnswerRadio() { return this.myForm.get("AnswerRadio") };
+  get AnswerSelect() { return this.myForm.get("AnswerSelect") };
+  get Answerdatapicker() { return this.myForm.get("Answerdatapicker") };
 
 
   stepStates = {
@@ -66,12 +66,12 @@ export class NgWizardComponent implements OnInit {
     // this.GetOpportunityfieldlist();
     this.smartsheetaccesstoken = localStorage.getItem("smartsheettoken");
     this.GetMappingsheetlist();
-    // this.myForm = this.fb.group({
-    //   AnswerInput: new FormControl('', Validators.required),
-    //   AnswerRadio: new FormControl('', Validators.required),
-    //   AnswerSelect: new FormControl('', Validators.required),
-    //   Answerdatapicker: new FormControl('', Validators.required)
-    // });
+    this.myForm = this.fb.group({
+      AnswerInput: new FormControl('', Validators.required),
+      AnswerRadio: new FormControl('', Validators.required),
+      AnswerSelect: new FormControl('', Validators.required),
+      Answerdatapicker: new FormControl('', Validators.required)
+    });
   }
   // showPreviousStep(event?: Event) {
   //   this.ngWizardService.previous();
