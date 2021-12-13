@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../Services/auth.service';
 import { Router,ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { JsonFormData } from '../dynamic-form/dynamic-form.component';
+// import { myform } from '../../assets/my-form';
+
 
 let headers = new HttpHeaders({
   'Content-Type': 'application/json',
@@ -24,11 +27,16 @@ export class HomeComponent implements OnInit {
   REFRESH_TOKEN:  string ="";
   token :any;
   refreshToken= "";
+  // public formData!: JsonFormData;
+  public formData: any;
 
-  constructor(private authService: AuthService,private _router: Router,private http: HttpClient,private route: ActivatedRoute) { }
 
+  constructor(private authService: AuthService,private _router: Router,private http: HttpClient,private route: ActivatedRoute) {
+   }
   ngOnInit(): void {
     this.getoauthurl();
+   
+    
   }
   getoauthurl(){
     this.authService.getSmartsheetOauthUrl().subscribe((data: any) => {

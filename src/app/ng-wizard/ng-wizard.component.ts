@@ -6,7 +6,10 @@ import { formatDate } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, ValidatorFn, ReactiveFormsModule } from '@angular/forms';
 import { FormField } from '../Services/formfield';
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { JsonFormData } from '../dynamic-form/dynamic-form.component';
+
 // import {moment} from 'moment';
 // smarclient = require('smartsheet');
 const ngWizardConfig: NgWizardConfig = {
@@ -28,6 +31,7 @@ export class NgWizardComponent implements OnInit {
   tokenresponse: any;
   oldtokenresponse: any;
   formFields!: FormField[];
+  public formData: any;
  // myForm = new FormGroup({});
   myForm = new FormGroup({
     AnswerInput: new FormControl('', Validators.required),
@@ -58,7 +62,7 @@ export class NgWizardComponent implements OnInit {
     // }
   };
 
-  constructor(private ngWizardService: NgWizardService, private authService: AuthService, private route: ActivatedRoute, private fb: FormBuilder) {
+  constructor(private ngWizardService: NgWizardService, private authService: AuthService, private route: ActivatedRoute, private fb: FormBuilder,private http: HttpClient) {
   }
 
   ngOnInit() {
@@ -72,6 +76,11 @@ export class NgWizardComponent implements OnInit {
       AnswerSelect: new FormControl('', Validators.required),
       Answerdatapicker: new FormControl('', Validators.required)
     });
+    // this.http.get<JsonFormData[]>('../../assets/my-form.json')
+    // .subscribe((formData: JsonFormData[]) => {
+    //   this.formData = formData;
+    //   console.log(this.formData);
+    // });
   }
   // showPreviousStep(event?: Event) {
   //   this.ngWizardService.previous();
@@ -201,8 +210,13 @@ export class NgWizardComponent implements OnInit {
       this.sheetId = res[0].values;
       this.style =res[0].style;
     }
-    else {
+    else if (entry == "Designing"){
       const res = this.MappingSheetList.filter((x: any) => x.key == "QuestionDesigning");
+      this.sheetId = res[0].values;
+      this.style =res[0].style;
+    }
+    else {
+      const res = this.MappingSheetList.filter((x: any) => x.key == entry);
       this.sheetId = res[0].values;
       this.style =res[0].style;
     }

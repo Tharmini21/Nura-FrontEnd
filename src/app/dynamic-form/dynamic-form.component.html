@@ -1,1 +1,87 @@
-<p>dynamic-form works!</p>
+<div class="app">
+    <!-- <dynamic-form [config]="config"> -->
+    <!-- <dynamic-form [config]="config">
+        <input  [formControlName]="config.pages.name"
+            [id]="config.pages.name" [type]="config.pages.type">
+    </dynamic-form> -->
+
+    <!-- <ng-container *ngFor="let item of config">
+        <ng-container *ngIf="item.questions; else default;">
+          <p>{{item.title}}</p>
+          <div class="row pb-4" [formGroupName]="item.name">
+            <div class="form-group">
+                <input [type]="item.type" 
+                [formControlName]="item.name" 
+                [placeholder]="item.title" 
+                [name]="item.name" />
+              </div>
+          </div>
+        </ng-container> -->
+
+
+    <!-- <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div *ngFor="let formField of config" class="form-group">
+                <label> {{ formField.title }}</label>
+                <input class="form-control" 
+                           type="{{ formField.questions.type }}" 
+                           value="{{ formField.questions.name }}" 
+                           [placeholder]="formField.title" 
+                          [required]="formField.questions.isRequired" 
+                          formControlName="{{ formField.questions.name }}" />
+                <br>
+            </div>
+            <button type="submit" 
+                         class="btn btn-primary" 
+                         [disabled]="this.form.invalid">Submit</button>
+        </form> -->
+
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+        <div *ngFor="let control of formData?.controls" class="form-group">
+            <label> {{ control.label }}</label>
+            <!-- <input class="form-control" type="control.type" value="{{control.value}}" [placeholder]="control.name"
+                formControlName="{{control.name}}" /> -->
+                <input class="form-control" 
+                [type]="control.type"
+                [formControlName]="control.name"
+                [value]="control.value"
+                [placeholder]="control.name">
+                <mat-form-field appearance="fill" *ngIf="control.type === 'textarea'">
+                    <mat-label>Leave a comment</mat-label>
+                    <textarea matInput placeholder="comments" [formControlName]="control.name" [value]="control.value"></textarea>
+                  </mat-form-field>
+                <!-- <textarea *ngIf="control.type === 'textarea'" [formControlName]="control.name"
+                [value]="control.value"></textarea> -->
+                <mat-checkbox *ngIf="control.type === 'checkbox'" [formControlName]="control.name" [value]="control.value"></mat-checkbox>
+                <!-- <ion-textarea
+                *ngIf="control.type === 'textarea'"
+                [formControlName]="control.name"
+                [value]="control.value"
+              ></ion-textarea>
+              <ion-checkbox
+                *ngIf="control.type === 'checkbox'"
+                [formControlName]="control.name"
+                [checked]="control.value"
+              ></ion-checkbox> -->
+              <!-- <ion-toggle
+                *ngIf="control.type === 'toggle'"
+                [formControlName]="control.name"
+                [checked]="control.value"
+              ></ion-toggle> -->
+              <!-- <ion-range
+                *ngIf="control.type === 'range'"
+                [min]="control.options.min"
+                [max]="control.options.max"
+                [formControlName]="control.name"
+              >
+                <ion-icon
+                  size="small"
+                  slot="start"
+                  [name]="control.options.icon"
+                ></ion-icon>
+                <ion-icon slot="end" [name]="control.options.icon"></ion-icon>
+              </ion-range> -->
+            <br>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="this.form.invalid">Submit</button>
+    </form>
+</div>

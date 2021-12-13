@@ -134,13 +134,15 @@
                     <td *ngIf="sl.fieldType=='textbox'?Showtextbox:''">
                       <div>
                         <input class="form-control" formControlName="AnswerInput" type="text" name="Answer"
-                          placeholder="Answer" [(ngModel)]="sl.answer" autocomplete="off" [ngClass]="{'is-invalid':myForm.controls.AnswerInput.errors}">
+                          placeholder="Answer" [(ngModel)]="sl.answer" autocomplete="off"
+                          [ngClass]="{'is-invalid':myForm.controls.AnswerInput.errors}">
                         <div *ngIf="myForm.controls.AnswerInput.errors"></div>
                         <!-- <span class="error" *ngIf="myForm.controls.AnswerInput.errors && sl.isRequired">Answer is required.</span> -->
                       </div>
                     </td>
                     <td *ngIf="sl.fieldType=='checkbox'?Showcheckbox:''">
-                      <mat-radio-group [(ngModel)]="sl.answer" formControlName="AnswerRadio" [ngClass]="{'is-invalid':myForm.controls.AnswerRadio.errors}">
+                      <mat-radio-group [(ngModel)]="sl.answer" formControlName="AnswerRadio"
+                        [ngClass]="{'is-invalid':myForm.controls.AnswerRadio.errors}">
                         <mat-radio-button value="yes">Yes</mat-radio-button>
                         <mat-radio-button value="no">No</mat-radio-button>
                       </mat-radio-group>
@@ -160,7 +162,8 @@
                     <td *ngIf="sl.fieldType=='datetimepicker'?Showdatetimepicker:''">
                       <mat-form-field appearance="fill">
                         <mat-label>Choose a date</mat-label>
-                        <input matInput [matDatepicker]="picker" [(ngModel)]="sl.answer" formControlName="Answerdatapicker">
+                        <input matInput [matDatepicker]="picker" [(ngModel)]="sl.answer"
+                          formControlName="Answerdatapicker">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                       </mat-form-field>
@@ -169,6 +172,37 @@
                 </table>
               </div>
             </div>
+          </div>
+          <div *ngIf="SmartsheetList?SmartsheetList.length>0 && style =='dynamic-form':''">
+            <div *ngFor="let control of SmartsheetList" class="form-group">
+              <label> {{ control.question }}</label>
+              <input class="form-control" *ngIf="control.fieldType === 'textbox' || control.fieldType === 'password'"
+                [type]="control.fieldType" [value]="" [placeholder]="control.question">
+              <div *ngIf="control.fieldType === 'textarea'">
+                <mat-form-field appearance="fill">
+                  <textarea matInput placeholder="comments" [value]=""></textarea>
+                </mat-form-field>
+              </div>
+              <section *ngIf="control.fieldType === 'checkbox'">
+                <mat-checkbox value="Yes" style="align-items: flex-start;">Yes</mat-checkbox>
+                <mat-checkbox value="No" style="margin-left: 20px;">No</mat-checkbox>
+              </section>
+
+              <div *ngIf="!control.visible && control.fieldType==='optionlist'">
+                <mat-form-field appearance="fill">
+                  <label>Education Level</label>
+                  <select matNativeControl ngModel [required]="control.isRequired">
+                    <option value="-1">Select</option>
+                    <option *ngFor="let item of control.fieldValues.split(',')" [value]="item">
+                      {{item}}
+                    </option>
+                  </select>
+                </mat-form-field>
+                <br>
+              </div>
+              <br>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
           </div>
         </form>
 
