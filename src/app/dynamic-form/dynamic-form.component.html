@@ -1,58 +1,42 @@
 <div class="app">
-    <!-- <dynamic-form [config]="config"> -->
-    <!-- <dynamic-form [config]="config">
-        <input  [formControlName]="config.pages.name"
-            [id]="config.pages.name" [type]="config.pages.type">
-    </dynamic-form> -->
 
-    <!-- <ng-container *ngFor="let item of config">
-        <ng-container *ngIf="item.questions; else default;">
-          <p>{{item.title}}</p>
-          <div class="row pb-4" [formGroupName]="item.name">
-            <div class="form-group">
-                <input [type]="item.type" 
-                [formControlName]="item.name" 
-                [placeholder]="item.title" 
-                [name]="item.name" />
-              </div>
-          </div>
-        </ng-container> -->
+  <!-- [formControlName]="control.name" -->
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <div *ngFor="let control of formData?.controls" class="form-group">
+      <label> {{ control.label }}</label>
+      <input *ngIf="
+                [
+                  'text',
+                  'password',
+                  'email',
+                  'number',
+                  'search',
+                  'tel',
+                  'url',
+                  ].includes(control.type)
+              " class="form-control" [type]="control.type" [value]="control.value" [placeholder]="control.name" />
+      <div *ngIf="control.type === 'textarea'">
+        <mat-form-field appearance="fill">
+          <textarea matInput placeholder="comments" [value]="control.value"></textarea>
+        </mat-form-field>
+      </div>
+      <section *ngIf="control.type === 'checkbox'">
+        <mat-checkbox value="Yes" style="align-items: flex-start;">Yes</mat-checkbox>
+        <mat-checkbox value="No" style="margin-left: 20px;">No</mat-checkbox>
+      </section>
+      <div *ngIf="control.type === 'toggle'">
+        <mat-slide-toggle>
+        </mat-slide-toggle>
+      </div>
+      <div *ngIf="control.type === 'range'">
+        <!-- <mat-slider thumbLabel tickInterval="1000" step="1000" min="control.options.min" max="control.options.max"
+          aria-label="units">
+        </mat-slider> -->
+        <mat-slider min="control.options.min" max="control.options.max">
+        </mat-slider>
+      </div>
 
-
-    <!-- <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div *ngFor="let formField of config" class="form-group">
-                <label> {{ formField.title }}</label>
-                <input class="form-control" 
-                           type="{{ formField.questions.type }}" 
-                           value="{{ formField.questions.name }}" 
-                           [placeholder]="formField.title" 
-                          [required]="formField.questions.isRequired" 
-                          formControlName="{{ formField.questions.name }}" />
-                <br>
-            </div>
-            <button type="submit" 
-                         class="btn btn-primary" 
-                         [disabled]="this.form.invalid">Submit</button>
-        </form> -->
-
-    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-        <div *ngFor="let control of formData?.controls" class="form-group">
-            <label> {{ control.label }}</label>
-            <!-- <input class="form-control" type="control.type" value="{{control.value}}" [placeholder]="control.name"
-                formControlName="{{control.name}}" /> -->
-                <input class="form-control" 
-                [type]="control.type"
-                [formControlName]="control.name"
-                [value]="control.value"
-                [placeholder]="control.name">
-                <mat-form-field appearance="fill" *ngIf="control.type === 'textarea'">
-                    <mat-label>Leave a comment</mat-label>
-                    <textarea matInput placeholder="comments" [formControlName]="control.name" [value]="control.value"></textarea>
-                  </mat-form-field>
-                <!-- <textarea *ngIf="control.type === 'textarea'" [formControlName]="control.name"
-                [value]="control.value"></textarea> -->
-                <mat-checkbox *ngIf="control.type === 'checkbox'" [formControlName]="control.name" [value]="control.value"></mat-checkbox>
-                <!-- <ion-textarea
+      <!-- <ion-textarea
                 *ngIf="control.type === 'textarea'"
                 [formControlName]="control.name"
                 [value]="control.value"
@@ -62,12 +46,12 @@
                 [formControlName]="control.name"
                 [checked]="control.value"
               ></ion-checkbox> -->
-              <!-- <ion-toggle
+      <!-- <ion-toggle
                 *ngIf="control.type === 'toggle'"
                 [formControlName]="control.name"
                 [checked]="control.value"
               ></ion-toggle> -->
-              <!-- <ion-range
+      <!-- <ion-range
                 *ngIf="control.type === 'range'"
                 [min]="control.options.min"
                 [max]="control.options.max"
@@ -80,8 +64,8 @@
                 ></ion-icon>
                 <ion-icon slot="end" [name]="control.options.icon"></ion-icon>
               </ion-range> -->
-            <br>
-        </div>
-        <button type="submit" class="btn btn-primary" [disabled]="this.form.invalid">Submit</button>
-    </form>
+      <br>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="this.form.invalid">Submit</button>
+  </form>
 </div>

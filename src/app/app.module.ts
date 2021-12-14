@@ -24,6 +24,8 @@ import { HomeComponent } from './home/home.component';
 import { CallbackComponent } from './callback/callback.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSliderModule} from '@angular/material/slider';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -55,7 +57,9 @@ const ngWizardConfig: NgWizardConfig = {
     MatNativeDateModule,
     MatRadioModule,
     ReactiveFormsModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatSlideToggleModule,
+    MatSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

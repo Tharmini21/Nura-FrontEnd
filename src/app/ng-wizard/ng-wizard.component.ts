@@ -32,7 +32,7 @@ export class NgWizardComponent implements OnInit {
   oldtokenresponse: any;
   formFields!: FormField[];
   public formData: any;
- // myForm = new FormGroup({});
+  // myForm = new FormGroup({});
   myForm = new FormGroup({
     AnswerInput: new FormControl('', Validators.required),
     AnswerRadio: new FormControl('', Validators.required),
@@ -62,7 +62,7 @@ export class NgWizardComponent implements OnInit {
     // }
   };
 
-  constructor(private ngWizardService: NgWizardService, private authService: AuthService, private route: ActivatedRoute, private fb: FormBuilder,private http: HttpClient) {
+  constructor(private ngWizardService: NgWizardService, private authService: AuthService, private route: ActivatedRoute, private fb: FormBuilder, private http: HttpClient) {
   }
 
   ngOnInit() {
@@ -149,7 +149,7 @@ export class NgWizardComponent implements OnInit {
         localStorage.setItem("token", this.access_token);
         this.Getopportunitylist();
         this.GetOpportunityfieldlist();
-        this.GetSalesforceuserdetails(username,this.access_token);
+        this.GetSalesforceuserdetails(username, this.access_token);
       },
       err => {
         console.log(err);
@@ -157,7 +157,7 @@ export class NgWizardComponent implements OnInit {
     );
   }
   GetSalesforceuserdetails(username: string, token: string) {
-    this.authService.GetSalesforceuserdetails(username,token).subscribe(
+    this.authService.GetSalesforceuserdetails(username, token).subscribe(
       (data: any) => {
         this.SalesForceUserdetails = data.records;
         console.log(this.SalesForceUserdetails);
@@ -195,30 +195,31 @@ export class NgWizardComponent implements OnInit {
   };
   changedepartmenttype(event: any) {
     this.SmartsheetList = [];
-    this.style="";
+    this.style = "";
     this.Showloader = true;
     let entry = event.target.value;
     this.fieldtype = event.target.value;
-    this.BackgroundColor=this.getBackgroundColor(this.fieldtype);
+    this.BackgroundColor = this.getBackgroundColor(this.fieldtype);
+    // this.style=this.getBackgroundColor(this.fieldtype);
     if (entry == "Software") {
       const res = this.MappingSheetList.filter((x: any) => x.key == 'QuestionSoftware');
       this.sheetId = res[0].values;
-      this.style =res[0].style;
+      this.style = res[0].style;
     }
     else if (entry == "Networking") {
       const res = this.MappingSheetList.filter((x: any) => x.key == 'QuestionNetworking');
       this.sheetId = res[0].values;
-      this.style =res[0].style;
+      this.style = res[0].style;
     }
-    else if (entry == "Designing"){
+    else if (entry == "Designing") {
       const res = this.MappingSheetList.filter((x: any) => x.key == "QuestionDesigning");
       this.sheetId = res[0].values;
-      this.style =res[0].style;
+      this.style = res[0].style;
     }
     else {
       const res = this.MappingSheetList.filter((x: any) => x.key == entry);
       this.sheetId = res[0].values;
-      this.style =res[0].style;
+      this.style = res[0].style;
     }
     this.authService.getSmartsheetdata(this.sheetId, this.smartsheetaccesstoken).subscribe(
       (data: any) => {
@@ -260,7 +261,7 @@ export class NgWizardComponent implements OnInit {
       this.Previewanswerdata.push(this.bodydata)
     }
   }
- 
+
   onSubmit(): void {
     if (this.myForm.valid) {
       let value = this.myForm.value;
@@ -286,15 +287,29 @@ export class NgWizardComponent implements OnInit {
         const res = this.MappingSheetList.filter((x: any) => x.key == 'AnswerDesigning');
         this.answersheetId = res[0].values;
       }
-      for (let i = 0; i < this.SmartsheetList.length; i++) {
+      if (this.style == "table-editable") {
+        for (let i = 0; i < this.SmartsheetList.length; i++) {
           this.bodydata = {
             UserId: this.SalesForceUserdetails[0].id,
-            Answer: (this.SmartsheetList[i].fieldType == "DateTimePicker" && this.myForm.controls[this.SmartsheetList[i].fieldType + this.SmartsheetList[i].no].value!="") ? formatDate(this.myForm.controls[this.SmartsheetList[i].fieldType + this.SmartsheetList[i].no].value , 'MM-dd-yyyy', 'en-US') : this.myForm.controls[this.SmartsheetList[i].fieldType + this.SmartsheetList[i].no].value,
+            Answer: this.SmartsheetList[i].answer,
             QuestionId: this.SmartsheetList[i].no,
             type: this.fieldtype
           };
-        this.Outputanswerdata.push(this.bodydata)
+          this.Outputanswerdata.push(this.bodydata)
+        }
       }
+      else {
+        for (let i = 0; i < this.SmartsheetList.length; i++) {
+          this.bodydata = {
+            UserId: this.SalesForceUserdetails[0].id,
+            Answer: (this.SmartsheetList[i].fieldType == "DateTimePicker" && this.myForm.controls[this.SmartsheetList[i].fieldType + this.SmartsheetList[i].no].value != "") ? formatDate(this.myForm.controls[this.SmartsheetList[i].fieldType + this.SmartsheetList[i].no].value, 'MM-dd-yyyy', 'en-US') : this.myForm.controls[this.SmartsheetList[i].fieldType + this.SmartsheetList[i].no].value,
+            QuestionId: this.SmartsheetList[i].no,
+            type: this.fieldtype
+          };
+          this.Outputanswerdata.push(this.bodydata)
+        }
+      }
+
 
       this.authService.UpdateSmartsheetdata(this.answersheetId, this.Outputanswerdata, this.smartsheetaccesstoken).subscribe(
         (data: any) => {
@@ -315,8 +330,27 @@ export class NgWizardComponent implements OnInit {
       window.alert("Please fill required fields");
     }
   }
-  
-  getBackgroundColor(fieldtype:string) {
+  getstyle(fieldtype: string) {
+    let style = '';
+    if (this.fieldtype == "Software") {
+      const res = this.MappingSheetList.filter((x: any) => x.key == 'QuestionSoftware');
+      style = res[0].style;
+    }
+    else if (this.fieldtype == "Networking") {
+      const res = this.MappingSheetList.filter((x: any) => x.key == 'QuestionNetworking');
+      style = res[0].style;
+    }
+    else if (this.fieldtype == "Designing") {
+      const res = this.MappingSheetList.filter((x: any) => x.key == 'QuestionDesigning');
+      style = res[0].style;
+    }
+    else {
+      const res = this.MappingSheetList.filter((x: any) => x.key == fieldtype);
+      style = res[0].theme;
+    }
+    return style;
+  }
+  getBackgroundColor(fieldtype: string) {
     let color = 'orange';
     if (this.fieldtype == "Software") {
       const res = this.MappingSheetList.filter((x: any) => x.key == 'QuestionSoftware');
@@ -326,8 +360,12 @@ export class NgWizardComponent implements OnInit {
       const res = this.MappingSheetList.filter((x: any) => x.key == 'QuestionNetworking');
       color = res[0].theme;
     }
-    else {
+    else if (this.fieldtype == "Designing") {
       const res = this.MappingSheetList.filter((x: any) => x.key == 'QuestionDesigning');
+      color = res[0].theme;
+    }
+    else {
+      const res = this.MappingSheetList.filter((x: any) => x.key == fieldtype);
       color = res[0].theme;
     }
     return color;

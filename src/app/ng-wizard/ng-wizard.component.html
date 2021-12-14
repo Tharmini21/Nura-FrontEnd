@@ -117,6 +117,9 @@
           </mat-drawer-container>
           <div class="card" *ngIf="SmartsheetList?SmartsheetList.length>0 && style =='table-editable':''">
             <div class="card-body">
+              <!-- <div class="required">
+                <label><span style="color: red;">*</span>indicates required</label>
+              </div> -->
               <div id="table" class=style>
                 <table class="table table-bordered table-responsive-md table-striped text-center">
                   <tr>
@@ -129,20 +132,21 @@
                       <span>{{sl.no}}</span>
                     </td>
                     <td>
-                      <span>{{sl.question}}</span>
+                      <span>{{sl.question}} 
+                        <!-- <span *ngIf="sl.isRequired" style="color: red;">*</span> -->
+                      </span>
                     </td>
                     <td *ngIf="sl.fieldType=='textbox'?Showtextbox:''">
                       <div>
                         <input class="form-control" formControlName="AnswerInput" type="text" name="Answer"
-                          placeholder="Answer" [(ngModel)]="sl.answer" autocomplete="off"
-                          [ngClass]="{'is-invalid':myForm.controls.AnswerInput.errors}">
-                        <div *ngIf="myForm.controls.AnswerInput.errors"></div>
+                          placeholder="Answer" [(ngModel)]="sl.answer" autocomplete="off">
+                          <!-- [ngClass]="{'is-invalid':myForm.controls.AnswerInput.errors}" -->
+                        <!-- <div *ngIf="myForm.controls.AnswerInput.errors"></div> -->
                         <!-- <span class="error" *ngIf="myForm.controls.AnswerInput.errors && sl.isRequired">Answer is required.</span> -->
                       </div>
                     </td>
                     <td *ngIf="sl.fieldType=='checkbox'?Showcheckbox:''">
-                      <mat-radio-group [(ngModel)]="sl.answer" formControlName="AnswerRadio"
-                        [ngClass]="{'is-invalid':myForm.controls.AnswerRadio.errors}">
+                      <mat-radio-group [(ngModel)]="sl.answer" formControlName="AnswerRadio">
                         <mat-radio-button value="yes">Yes</mat-radio-button>
                         <mat-radio-button value="no">No</mat-radio-button>
                       </mat-radio-group>
@@ -170,14 +174,18 @@
                     </td>
                   </tr>
                 </table>
+                <button type="submit" class="btn btn-primary" [disabled]="this.myForm.invalid">Submit</button>
               </div>
             </div>
           </div>
-          <div *ngIf="SmartsheetList?SmartsheetList.length>0 && style =='dynamic-form':''">
+          <div class="form-control" *ngIf="SmartsheetList?SmartsheetList.length>0 && style =='dynamic-form':''">
+            <div class="required">
+              <label><span style="color: red;">*</span>indicates required</label>
+            </div>
             <div *ngFor="let control of SmartsheetList" class="form-group">
-              <label> {{ control.question }}</label>
+              <label> {{ control.fieldName }} <span *ngIf="control.isRequired" style="color: red;">*</span></label>
               <input class="form-control" *ngIf="control.fieldType === 'textbox' || control.fieldType === 'password'"
-                [type]="control.fieldType" [value]="" [placeholder]="control.question">
+                [type]="control.fieldType" [value]="" [placeholder]="control.fieldName">
               <div *ngIf="control.fieldType === 'textarea'">
                 <mat-form-field appearance="fill">
                   <textarea matInput placeholder="comments" [value]=""></textarea>
