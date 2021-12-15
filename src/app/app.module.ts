@@ -26,6 +26,9 @@ import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import {MatPaginatorModule} from '@angular/material/paginator';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -59,7 +62,10 @@ const ngWizardConfig: NgWizardConfig = {
     ReactiveFormsModule,
     MatSidenavModule,
     MatSlideToggleModule,
-    MatSliderModule
+    MatSliderModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

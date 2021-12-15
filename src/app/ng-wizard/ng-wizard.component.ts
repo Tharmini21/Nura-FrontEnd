@@ -32,17 +32,21 @@ export class NgWizardComponent implements OnInit {
   oldtokenresponse: any;
   formFields!: FormField[];
   public formData: any;
-  // myForm = new FormGroup({});
-  myForm = new FormGroup({
-    AnswerInput: new FormControl('', Validators.required),
-    AnswerRadio: new FormControl('', Validators.required),
-    AnswerSelect: new FormControl('', Validators.required),
-    Answerdatapicker: new FormControl('', Validators.required)
-  });
-  get AnswerInput() { return this.myForm.get("AnswerInput") };
-  get AnswerRadio() { return this.myForm.get("AnswerRadio") };
-  get AnswerSelect() { return this.myForm.get("AnswerSelect") };
-  get Answerdatapicker() { return this.myForm.get("Answerdatapicker") };
+  myForm = new FormGroup({});
+  tableForm = new FormGroup({});
+  dynamicform!: FormGroup;
+  Opportunityname: any;
+
+  // myForm = new FormGroup({
+  //   AnswerInput: new FormControl('', Validators.required),
+  //   AnswerRadio: new FormControl('', Validators.required),
+  //   AnswerSelect: new FormControl('', Validators.required),
+  //   Answerdatapicker: new FormControl('', Validators.required)
+  // });
+  // get AnswerInput() { return this.myForm.get("AnswerInput") };
+  // get AnswerRadio() { return this.myForm.get("AnswerRadio") };
+  // get AnswerSelect() { return this.myForm.get("AnswerSelect") };
+  // get Answerdatapicker() { return this.myForm.get("Answerdatapicker") };
 
 
   stepStates = {
@@ -70,12 +74,12 @@ export class NgWizardComponent implements OnInit {
     // this.GetOpportunityfieldlist();
     this.smartsheetaccesstoken = localStorage.getItem("smartsheettoken");
     this.GetMappingsheetlist();
-    this.myForm = this.fb.group({
-      AnswerInput: new FormControl('', Validators.required),
-      AnswerRadio: new FormControl('', Validators.required),
-      AnswerSelect: new FormControl('', Validators.required),
-      Answerdatapicker: new FormControl('', Validators.required)
-    });
+    // this.myForm = this.fb.group({
+    //   AnswerInput: new FormControl('', Validators.required),
+    //   AnswerRadio: new FormControl('', Validators.required),
+    //   AnswerSelect: new FormControl('', Validators.required),
+    //   Answerdatapicker: new FormControl('', Validators.required)
+    // });
     // this.http.get<JsonFormData[]>('../../assets/my-form.json')
     // .subscribe((formData: JsonFormData[]) => {
     //   this.formData = formData;
@@ -181,6 +185,31 @@ export class NgWizardComponent implements OnInit {
       }
     )
   };
+  Search() {
+    if (this.Opportunityname == "") {
+      this.Getopportunitylist();
+    }
+    else {
+      this.OpportunityList = this.OpportunityList.filter((res: any) => {
+        return res.name.match(this.Opportunityname);
+      })
+      console.log(this.OpportunityList);
+      // this.OpportunityList=res;
+      // const res = this.OpportunityList.filter((x: any) => x.name == this.Opportunityname);
+      // console.log(res);
+      //   this.OpportunityList=this.OpportunityList.filter((res:any) =>{
+      //     return res.name == this.Opportunityname
+      //   //  return res.name.toLocaleLowerCase().match(this.Opportunityname.toLocaleLowerCase());
+      //   })
+    }
+  }
+  key: string = "id";
+  reverse: boolean = false;
+  p: number = 1;
+  sort(key: any) {
+    this.key = key;
+    this.reverse = !this.reverse;
+  }
   GetOpportunityfieldlist() {
     this.token = localStorage.getItem("token");
     this.access_token = this.token;
@@ -227,6 +256,7 @@ export class NgWizardComponent implements OnInit {
         this.SmartsheetList = data;
         for (const formField of this.SmartsheetList) {
           this.myForm.addControl(formField.fieldType + formField.no, new FormControl('', this.getValidator(formField)));
+          this.tableForm.addControl(formField.fieldType + formField.no, new FormControl('', this.getValidator(formField)));
         }
         this.formFields = this.SmartsheetList;
         this.Showloader = false;
@@ -271,27 +301,31 @@ export class NgWizardComponent implements OnInit {
   bodydata: any;
   formdata: any;
   Submit() {
+    this.Showloader = true;
+    this.Outputanswerdata = [];
+    if (this.fieldtype == "Software") {
+      const res = this.MappingSheetList.filter((x: any) => x.key == 'AnswerSoftware');
+      this.answersheetId = res[0].values;
+    }
+    else if (this.fieldtype == "Networking") {
+      const res = this.MappingSheetList.filter((x: any) => x.key == 'AnswerNetworking');
+      this.answersheetId = res[0].values;
+    }
+    else {
+      const res = this.MappingSheetList.filter((x: any) => x.key == 'AnswerDesigning');
+      this.answersheetId = res[0].values;
+    }
+    // if(!this.tableForm.valid && this.style == "table-editable")
+    // {
+    //  return window.alert("Please fill required fields");
+    // }
     if (this.myForm.valid) {
       this.formdata = JSON.stringify(this.myForm.value);
-      this.Showloader = true;
-      this.Outputanswerdata = [];
-      if (this.fieldtype == "Software") {
-        const res = this.MappingSheetList.filter((x: any) => x.key == 'AnswerSoftware');
-        this.answersheetId = res[0].values;
-      }
-      else if (this.fieldtype == "Networking") {
-        const res = this.MappingSheetList.filter((x: any) => x.key == 'AnswerNetworking');
-        this.answersheetId = res[0].values;
-      }
-      else {
-        const res = this.MappingSheetList.filter((x: any) => x.key == 'AnswerDesigning');
-        this.answersheetId = res[0].values;
-      }
       if (this.style == "table-editable") {
         for (let i = 0; i < this.SmartsheetList.length; i++) {
           this.bodydata = {
             UserId: this.SalesForceUserdetails[0].id,
-            Answer: this.SmartsheetList[i].answer,
+            Answer: this.SmartsheetList[i].answer != undefined ? this.SmartsheetList[i].answer : "NA",
             QuestionId: this.SmartsheetList[i].no,
             type: this.fieldtype
           };
@@ -309,8 +343,6 @@ export class NgWizardComponent implements OnInit {
           this.Outputanswerdata.push(this.bodydata)
         }
       }
-
-
       this.authService.UpdateSmartsheetdata(this.answersheetId, this.Outputanswerdata, this.smartsheetaccesstoken).subscribe(
         (data: any) => {
           console.log(data);
