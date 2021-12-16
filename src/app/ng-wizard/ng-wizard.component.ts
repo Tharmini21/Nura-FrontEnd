@@ -9,6 +9,7 @@ import { FormField } from '../Services/formfield';
 import { DatePipe } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JsonFormData } from '../dynamic-form/dynamic-form.component';
+import { OrderPipe } from 'ngx-order-pipe';
 
 // import {moment} from 'moment';
 // smarclient = require('smartsheet');
@@ -66,7 +67,7 @@ export class NgWizardComponent implements OnInit {
     // }
   };
 
-  constructor(private ngWizardService: NgWizardService, private authService: AuthService, private route: ActivatedRoute, private fb: FormBuilder, private http: HttpClient) {
+  constructor(private ngWizardService: NgWizardService, private authService: AuthService, private route: ActivatedRoute, private fb: FormBuilder, private http: HttpClient,private orderPipe: OrderPipe) {
   }
 
   ngOnInit() {
@@ -203,9 +204,10 @@ export class NgWizardComponent implements OnInit {
       //   })
     }
   }
-  key: string = "id";
+  key: string = "name";
   reverse: boolean = false;
   p: number = 1;
+  count: number = 10;
   sort(key: any) {
     this.key = key;
     this.reverse = !this.reverse;

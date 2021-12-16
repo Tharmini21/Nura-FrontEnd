@@ -29,6 +29,8 @@ import {MatSliderModule} from '@angular/material/slider';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { OrderModule } from 'ngx-order-pipe';
 const ngWizardConfig: NgWizardConfig = {
   theme: THEME.default
 };
@@ -65,7 +67,9 @@ const ngWizardConfig: NgWizardConfig = {
     MatSliderModule,
     MatToolbarModule,
     MatIconModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    NgxPaginationModule,
+    OrderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

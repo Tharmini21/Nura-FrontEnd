@@ -41,11 +41,11 @@
         <div id="table" class="table-editable" *ngIf="OpportunityList?OpportunityList.length>0:''">
           <table class="table table-bordered table-responsive-md table-striped">
             <tr>
-              <th class="text-center" (click)="sort('id')">Opportunity Id <i class="fa fa-sort"></i></th>
-              <th class="text-center">Opportunity Name</th>
+              <th class="text-center">Opportunity Id </th>
+              <th class="text-center" (click)="sort('name')">Opportunity Name&nbsp;<i class="fa fa-sort"></i></th>
               <th class="text-center">Department Type</th>
             </tr>
-            <tr *ngFor="let ol of OpportunityList">
+            <tr *ngFor="let ol of OpportunityList | orderBy: key : reverse | paginate: { itemsPerPage: count, currentPage: p }">
               <td>
                 <span>{{ol.id}}</span>
               </td>
@@ -56,12 +56,14 @@
                 <span>{{ol.dep_Type__c?ol.dep_Type__c:"NA"}}</span>
               </td>
             </tr>
-            <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
           </table>
         </div>
+        <div class="" *ngIf="OpportunityList?OpportunityList.length>0:''">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
       </div>
-      <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
-      </mat-paginator>
+      <!-- <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+      </mat-paginator> -->
 
     </ng-wizard-step>
     <ng-wizard-step [title]="'Step 2'" [description]="'Question&Answer'" [canEnter]="isValidTypeBoolean"
@@ -200,7 +202,7 @@
                   </td>
                 </tr>
               </table>
-              <button type="submit" class="btn btn-primary" [disabled]="!tableForm.valid">Submit</button>
+              <button type="submit" class="btn btn-primary" [disabled]="tableForm.invalid">Submit</button>
             </div>
           </div>
         </div>
